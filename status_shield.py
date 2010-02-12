@@ -1,4 +1,4 @@
-class StatusError:
+class StatusShield:
     handle_errors = {}
 
     def __init__(self, app):
