@@ -1,0 +1,44 @@
+Status Shield
+=============
+
+Status Shield is a WSGI Middleware for displaying error pages based on the
+status response it receives from a WSGI application. This is useful because
+you don't have to handle those pages at the application level anymore,
+resulting in less clutter. Just make sure your application returns at least an
+HTTP status.
+
+
+Usage
+-----
+
+Copy the files to your project (you can also use a *git submodule*), then
+watch how this example works:
+
+    from status_shield import StatusShield
+
+
+    class ErrorPages(StatusShield):
+        def internal_server_error():
+            return 'INTERNAL SERVER ERROR'
+
+        def not_found():
+            return 'NOT FOUND'
+
+        handle_errors = {
+            404: not_found,
+            500: internal_server_error,
+        }
+
+In this example, simple strings are used, but Status Shield generates a
+`text/html` mime-type, so you can create full HTML pages with all the fancy
+you want, in the way you want.
+
+`ErrorPages` can then be used as a WSGI middleware:
+
+    ErrorPages(your_wsgi_app)
+
+Pass it to your WSGI server, and voila :)
+
+------------------------------------------------------------------------------
+
+Questions, remarks, anything: [@hashmalech](http://twitter.com/hashmalech)
