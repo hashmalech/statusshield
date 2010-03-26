@@ -18,6 +18,8 @@ class StatusShield:
         status_code = int(status[0])
         if status_code in [4, 5]:
             self.status_error = int(status[:3])
-        # TODO: don't overwrite existing headers
-        headers = [('Content-Type', 'text/html; charset=UTF-8')]
+        for header in headers:
+            if header[0] == 'Content-Type':
+                headers.remove(header)
+        headers += [('Content-Type', 'text/html; charset=UTF-8')]
         return self.start_response(status, headers, exc_info)
